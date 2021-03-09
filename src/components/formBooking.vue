@@ -9,11 +9,11 @@
             <!-- <p class="ion-label">Date</p> -->
             <ion-item>
                 <!-- <ion-label>Date</ion-label> -->
-                <ion-datetime  v-model="date" placeholder="Date" value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
+                <ion-datetime color="danger" display-format="D MMM YYYY" min="2021" cancel-text="Fermer" done-text="Valider" monthShortNames='Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Août, Sept, Octobre, Novembre, Décembre' v-model="date" placeholder="Date" value="2019-10-01T15:43:40.394Z" display-timezone="utc"></ion-datetime>
             </ion-item>
             <!-- <p class="ion-label">Créneau</p> -->
             <ion-list>
-                <ion-radio-group v-model="slot">
+                <ion-radio-group v-model="slot" color="warning">
                 <!-- <ion-list-header>
                     <ion-label>
                     Créneau
@@ -21,58 +21,59 @@
                 </ion-list-header> -->
                 <ion-item>
                     <ion-label>10h30 à 11h</ion-label>
-                    <ion-radio value="10h30 à 11h"></ion-radio>
+                    <ion-radio color="success" value="10h30 à 11h"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>11h à 11h30</ion-label>
-                    <ion-radio value="11h à 11h30"></ion-radio>
+                    <ion-radio color="success" value="11h à 11h30"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>11h30 à 12h</ion-label>
-                    <ion-radio value="11h30 à 12h"></ion-radio>
+                    <ion-radio color="success" value="11h30 à 12h"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>12h à 12h30</ion-label>
-                    <ion-radio value="12h à 12h30"></ion-radio>
+                    <ion-radio color="success" value="12h à 12h30"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>12h30 à 13h</ion-label>
-                    <ion-radio value="12h30 à 13h"></ion-radio>
+                    <ion-radio color="success" value="12h30 à 13h"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>16h à 16h30</ion-label>
-                    <ion-radio value="13h à 13h30"></ion-radio>
+                    <ion-radio color="success" value="13h à 13h30"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>16h30 à 17h</ion-label>
-                    <ion-radio value="16h30 à 17h30"></ion-radio>
+                    <ion-radio color="success" value="16h30 à 17h30"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>17h à 17h30</ion-label>
-                    <ion-radio value="17h à 17h30"></ion-radio>
+                    <ion-radio color="success" value="17h à 17h30"></ion-radio>
                 </ion-item>
 
                 <ion-item>
                     <ion-label>17h30 à 18h</ion-label>
-                    <ion-radio value="17h30 à 18h"></ion-radio>
+                    <ion-radio color="success" value="17h30 à 18h"></ion-radio>
                 </ion-item>
                 </ion-radio-group>
             </ion-list>
             <!-- <p class="ion-label"></p> -->
             <ion-item>
-                <ion-checkbox color="primary" @click.prevent="checkCondtions"></ion-checkbox>
+                <ion-checkbox color="success" @click.prevent="checkCondtions"></ion-checkbox>
                 <ion-label>J'ai lu et j'accepte les conditions générales d'utilisation.</ion-label>
             </ion-item>
-            <ion-button @click.prevent="bookSlot" color="dark">Réserver</ion-button>
+            <ion-button style="margin: 20px 0" @click.prevent="bookSlot" color="dark">Réserver</ion-button>
             </ion-card>
         </form>  
+        <ion-button id="cancel" disabled="true" color="warning" @click.prevent="cancelBooking">Annuler ma réservation</ion-button>
   </div>
 </template>
 
@@ -89,6 +90,7 @@ export default {
             date : "",
             slot : "",
             conditions : "",
+            token : "",
             checkedConditions : false
         }
     },
@@ -118,11 +120,16 @@ export default {
                 headers: {"Accept" : "application/json" },
                 })
                 .then((response) => {
+                    console.log(response);
                     const message = response.data.message;
+                    console.log(response.data.token);
+                    this.token = response.data.token;
                     this.email = "";
                     this.slot = "";
                     this.date = "";
-                    this.displaySuccess(message)
+                    document.querySelector("#cancel").setAttribute("disabled", "false");
+                    this.displaySuccess(message);
+
                 })
                 .catch((error) => {
                     // console.log(error.response.data);
@@ -136,6 +143,17 @@ export default {
                     }
                     
             })
+        },
+        cancelBooking(){
+            axios
+                .post(`http://food-booking-laravel.herokuapp.com/api/reservation/annulation/${this.token}`)
+                .then((response) =>{
+                     document.querySelector("#cancel").setAttribute("disabled", "true");
+                     this.displaySuccess(response.data.message);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         },
         checkCondtions(){
             if (this.checkedConditions){
@@ -161,6 +179,7 @@ export default {
         document.body.appendChild(toast);
         return toast.present();
         },
+    
     }
 }
 </script>
@@ -196,7 +215,6 @@ export default {
     /* margin-left: 20px !important; */
     text-align: left;
 }
-
 
 
 </style>

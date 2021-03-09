@@ -1,7 +1,7 @@
 <template>
   <ion-page >
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="success">
         <ion-title style="font-size:20px; text-transform:uppercase">{{ infos.name }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -59,9 +59,9 @@
         </ion-card-header>
 
         <ion-card-content>         
-          <!-- <div class="map-responsive">
+          <div class="map-responsive">
             <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10499.388539404134!2d2.3562227!3d48.8611253!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x165cc8f5142afd8c!2sLe%20Reflet!5e0!3m2!1sfr!2sfr!4v1612877216580!5m2!1sfr!2sfr" width="500" height="350" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-          </div> -->
+          </div>
         </ion-card-content>
 
         <ion-card-header> 

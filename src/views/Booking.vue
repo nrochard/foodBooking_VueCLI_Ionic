@@ -1,8 +1,8 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
-        <ion-title>Food Booking</ion-title>
+      <ion-toolbar color="success">
+        <ion-title style="font-size:20px; text-transform:uppercase">FOOD BOOKING</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -16,7 +16,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
 import formBooking from '@/components/formBooking.vue';
 
 export default  {
-  name: 'Tab2',
+  name: 'Booking',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, formBooking }
 }
 </script>
