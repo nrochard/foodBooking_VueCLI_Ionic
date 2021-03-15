@@ -98,7 +98,7 @@ export default  {
   },
     mounted(){
         axios
-        .get("http://food-booking-laravel.herokuapp.com/api/infos")
+        .get("https://food-booking-laravel.herokuapp.com/api/infos")
         .then((response) =>{
             console.log(response.data);
             this.infos = response.data;

@@ -146,7 +146,7 @@ export default {
         },
         cancelBooking(){
             axios
-                .post(`http://food-booking-laravel.herokuapp.com/api/reservation/annulation/${this.token}`)
+                .post(`https://food-booking-laravel.herokuapp.com/api/reservation/annulation/${this.token}`)
                 .then((response) =>{
                      document.querySelector("#cancel").setAttribute("disabled", "true");
                      this.displaySuccess(response.data.message);
